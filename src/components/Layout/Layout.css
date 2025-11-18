@@ -1,0 +1,43 @@
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
+  background-color: #f5f7fa;
+  padding: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+  .main-content {
+    padding: 0;
+  }
+}
+
+@media (max-width: 968px) {
+  .main-content {
+    padding: 0;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-content {
+    padding: 0;
+  }
+}
+
+@media (max-width: 640px) {
+  .main-content {
+    padding: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    padding: 0;
+  }
+}
+
