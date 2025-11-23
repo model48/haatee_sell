@@ -1,4 +1,4 @@
-import { colors } from './colors';
+import { colors } from './colorssell';
 
 export const theme = {
   colors,

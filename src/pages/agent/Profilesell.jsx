@@ -1,7 +1,6 @@
 import {
   Bath,
   Bed,
-  Book,
   Camera,
   CheckCircle,
   ChevronRight,
@@ -22,10 +21,10 @@ import {
   X,
   XCircle
 } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Layout from '../../components/Layout/Layout';
-import './Profile.css';
+import Layout from '../../components/Layout/Layoutsell';
+import './Profilesell.css';
 
 const PROPERTY_TYPES = {
   'condo': 'คอนโด',

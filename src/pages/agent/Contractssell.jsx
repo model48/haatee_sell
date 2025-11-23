@@ -1,12 +1,16 @@
-import { useState } from 'react';
-import { 
-  FileText, PlusCircle, Search, Download, Send,
-  CheckCircle, Clock, XCircle, Edit, Eye
-} from 'lucide-react';
 import { format } from 'date-fns';
 import { th } from 'date-fns/locale';
-import Layout from '../../components/Layout/Layout';
-import './Contracts.css';
+import {
+  CheckCircle, Clock,
+  Download,
+  Edit, Eye,
+  FileText, PlusCircle, Search,
+  Send,
+  XCircle
+} from 'lucide-react';
+import { useState } from 'react';
+import Layout from '../../components/Layout/Layoutsell';
+import './Contractssell.css';
 
 const INITIAL_CONTRACT = {
   customerName: '',

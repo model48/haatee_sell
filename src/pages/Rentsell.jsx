@@ -1,5 +1,5 @@
-import Layout from '../components/Layout/Layout';
-import './Rent.css';
+import Layout from '../components/Layout/Layoutsell';
+import './Rentsell.css';
 
 const Rent = () => {
   return (

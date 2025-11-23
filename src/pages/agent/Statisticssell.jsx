@@ -10,8 +10,8 @@ import {
   TrendingUp
 } from 'lucide-react';
 import { useState } from 'react';
-import Layout from '../../components/Layout/Layout';
-import './Statistics.css';
+import Layout from '../../components/Layout/Layoutsell';
+import './Statisticssell.css';
 
 const Statistics = () => {
   const [timeRange, setTimeRange] = useState('30'); // '7', '30', '90', 'all'

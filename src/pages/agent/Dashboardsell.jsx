@@ -1,3 +1,5 @@
+import { format, subDays } from 'date-fns';
+import { th } from 'date-fns/locale';
 import {
   AlertCircle,
   Bell,
@@ -18,8 +20,8 @@ import {
 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Layout from '../../components/Layout/Layout';
-import './Dashboard.css';
+import Layout from '../../components/Layout/Layoutsell';
+import './Dashboardsell.css';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -37,6 +39,21 @@ const Dashboard = () => {
   ];
 
   const [showCustomerDropdown, setShowCustomerDropdown] = useState(false);
+
+  // ยอดการปิดดีลรายสัปดาห์ - สำหรับแสดงกราฟ
+  const dealsClosedData = [
+    { date: subDays(new Date(), 6), deals: 2, revenue: 8500000 },
+    { date: subDays(new Date(), 5), deals: 3, revenue: 12500000 },
+    { date: subDays(new Date(), 4), deals: 1, revenue: 4200000 },
+    { date: subDays(new Date(), 3), deals: 4, revenue: 16800000 },
+    { date: subDays(new Date(), 2), deals: 2, revenue: 9500000 },
+    { date: subDays(new Date(), 1), deals: 3, revenue: 13200000 },
+    { date: new Date(), deals: 2, revenue: 8800000 },
+  ];
+
+  const maxDeals = Math.max(...dealsClosedData.map(d => d.deals));
+  const totalDeals = dealsClosedData.reduce((sum, d) => sum + d.deals, 0);
+  const totalRevenue = dealsClosedData.reduce((sum, d) => sum + d.revenue, 0);
 
   // Real-time Key Metrics with comparison - สถิติการทำงาน
   const keyMetrics = {
@@ -428,6 +445,48 @@ const Dashboard = () => {
             ))}
           </div>
         )}
+
+        {/* Deals Closed Chart - กราฟแสดงยอดการปิดดีล */}
+        <div className="chart-card card">
+          <div className="section-header">
+            <h2>ยอดการปิดดีล</h2>
+            <div className="deals-summary">
+              <div className="summary-item">
+                <span className="summary-label">รวมดีล:</span>
+                <span className="summary-value">{totalDeals} ดีล</span>
+              </div>
+              <div className="summary-item">
+                <span className="summary-label">ยอดรวม:</span>
+                <span className="summary-value">{(totalRevenue / 1000000).toFixed(1)}M บาท</span>
+              </div>
+            </div>
+          </div>
+          <div className="chart-container">
+            <div className="chart-bars">
+              {dealsClosedData.map((day, index) => (
+                <div key={index} className="chart-bar-group">
+                  <div className="chart-bar-container">
+                    <div 
+                      className="chart-bar bar-deals"
+                      style={{ height: `${maxDeals > 0 ? (day.deals / maxDeals) * 100 : 0}%` }}
+                      title={`${day.deals} ดีล - ${(day.revenue / 1000000).toFixed(1)}M บาท`}
+                    >
+                      <div className="chart-bar-value">
+                        {(day.revenue / 1000000).toFixed(1)}M
+                      </div>
+                    </div>
+                  </div>
+                  <div className="chart-label">
+                    {format(day.date, 'dd MMM', { locale: th })}
+                  </div>
+                  <div className="chart-value">
+                    {day.deals} ดีล
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
 
         {/* Key Metrics Cards - สถิติการทำงาน */}
         <div className="key-metrics-grid">

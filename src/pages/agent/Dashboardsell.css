@@ -258,11 +258,116 @@
   background: white;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.06);
+  margin-bottom: var(--spacing-xl);
 }
 
 .chart-card h2 {
   margin-bottom: var(--spacing-lg);
   font-size: 1.25rem;
+}
+
+/* Deals Summary */
+.deals-summary {
+  display: flex;
+  gap: var(--spacing-lg);
+  align-items: center;
+}
+
+.summary-item {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.summary-label {
+  font-size: 0.85rem;
+  color: #666;
+  margin-bottom: 0.25rem;
+}
+
+.summary-value {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-status-green);
+}
+
+/* Chart Container */
+.chart-container {
+  padding: var(--spacing-md) 0;
+}
+
+.chart-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  gap: var(--spacing-xs);
+  height: 300px;
+  margin-bottom: var(--spacing-md);
+}
+
+.chart-bar-group {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  position: relative;
+}
+
+.chart-bar-container {
+  display: flex;
+  align-items: flex-end;
+  gap: 4px;
+  width: 100%;
+  height: 100%;
+  justify-content: center;
+}
+
+.chart-bar {
+  flex: 1;
+  max-width: 60px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  transition: all 0.2s ease;
+  min-height: 4px;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.bar-deals {
+  background: linear-gradient(180deg, var(--color-primary-royal), #42A5F5);
+}
+
+.chart-bar-value {
+  position: absolute;
+  top: -25px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  white-space: nowrap;
+  z-index: 1;
+}
+
+.chart-label {
+  margin-top: var(--spacing-xs);
+  font-size: 0.85rem;
+  color: #666;
+  text-align: center;
+}
+
+.chart-value {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-text-dark);
+  text-align: center;
+}
+
+.legend-color.deals {
+  background: var(--color-status-green);
 }
 
 /* Line Chart */
@@ -1247,7 +1352,30 @@
   }
 
   .chart-bars {
-    height: 150px;
+    height: 200px;
+    gap: var(--spacing-xs);
+  }
+
+  .chart-bar {
+    max-width: 40px;
+  }
+
+  .deals-summary {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    align-items: flex-end;
+  }
+
+  .summary-item {
+    align-items: flex-end;
+  }
+
+  .summary-label {
+    font-size: 0.75rem;
+  }
+
+  .summary-value {
+    font-size: 0.95rem;
   }
 
   .gauges-grid {
@@ -1314,6 +1442,36 @@
 
   .line-chart {
     height: 150px;
+  }
+
+  .chart-bars {
+    height: 120px;
+  }
+
+  .chart-bar {
+    max-width: 30px;
+  }
+
+  .deals-summary {
+    flex-direction: column;
+    gap: var(--spacing-xs);
+    align-items: flex-end;
+  }
+
+  .summary-label {
+    font-size: 0.7rem;
+  }
+
+  .summary-value {
+    font-size: 0.85rem;
+  }
+
+  .chart-label {
+    font-size: 0.7rem;
+  }
+
+  .chart-value {
+    font-size: 0.75rem;
   }
 
   .pie-chart {

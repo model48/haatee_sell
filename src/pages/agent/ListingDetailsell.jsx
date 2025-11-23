@@ -1,20 +1,25 @@
 import { format } from 'date-fns';
 import {
   ArrowLeft,
-  Bed,
   Bath,
-  MapPin,
+  Bed,
+  Calendar,
   Edit,
-  Trash2,
-  RefreshCw,
   Home,
+  Mail,
+  MapPin,
+  MessageCircle,
   Percent,
-  Calendar
+  Phone,
+  RefreshCw,
+  Star,
+  Trash2,
+  User
 } from 'lucide-react';
-import { useEffect, useState, useCallback } from 'react';
-import { Link, useParams, useNavigate } from 'react-router-dom';
-import Layout from '../../components/Layout/Layout';
-import './ListingDetail.css';
+import { useCallback, useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import Layout from '../../components/Layout/Layoutsell';
+import './ListingDetailsell.css';
 
 const ListingDetail = () => {
   const { id } = useParams();
@@ -22,6 +27,7 @@ const ListingDetail = () => {
   const [listing, setListing] = useState(null);
   const [loading, setLoading] = useState(true);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [agentProfile, setAgentProfile] = useState(null);
   
   // Loan calculator states
   const [loanData, setLoanData] = useState({
@@ -47,7 +53,7 @@ const ListingDetail = () => {
     loanTerm: ''
   });
 
-  const validateLoanField = useCallback((field, value, allLoanData = loanData) => {
+  const validateLoanField = useCallback((field, value, allLoanData) => {
     // Don't validate if value is empty
     if (value === '' || value === null || value === undefined) {
       setLoanErrors(prevErrors => ({
@@ -58,6 +64,7 @@ const ListingDetail = () => {
     }
     
     const numValue = parseFloat(value) || 0;
+    const dataToValidate = allLoanData || loanData;
     
     setLoanErrors(prevErrors => {
       const newErrors = { ...prevErrors };
@@ -68,7 +75,7 @@ const ListingDetail = () => {
         } else {
           newErrors.propertyPrice = '';
           // Re-validate loan amount if property price is valid
-          const loanAmount = parseFloat(allLoanData.loanAmount) || 0;
+          const loanAmount = parseFloat(dataToValidate.loanAmount) || 0;
           if (loanAmount > 0) {
             const maxLoanAmount = numValue * 0.9;
             if (loanAmount > maxLoanAmount) {
@@ -79,7 +86,7 @@ const ListingDetail = () => {
           }
         }
       } else if (field === 'loanAmount') {
-        const propertyPrice = parseFloat(allLoanData.propertyPrice) || 0;
+        const propertyPrice = parseFloat(dataToValidate.propertyPrice) || 0;
         if (propertyPrice > 0) {
           const maxLoanAmount = propertyPrice * 0.9;
           if (numValue > maxLoanAmount) {
@@ -106,12 +113,23 @@ const ListingDetail = () => {
       
       return newErrors;
     });
-  }, [loanData]);
+  }, []);
 
   useEffect(() => {
     const savedListings = JSON.parse(localStorage.getItem('listings') || '[]');
     const foundListing = savedListings.find(l => l.id === id);
     setListing(foundListing);
+    
+    // Load agent profile
+    const savedProfile = localStorage.getItem('agentProfile');
+    if (savedProfile) {
+      try {
+        setAgentProfile(JSON.parse(savedProfile));
+      } catch (e) {
+        console.error('Error loading agent profile:', e);
+      }
+    }
+    
     setLoading(false);
     
     // Initialize loan calculator with property price (only for sell listings)
@@ -127,9 +145,11 @@ const ListingDetail = () => {
         };
         setLoanData(initialData);
         
-        // Validate initial data
-        validateLoanField('propertyPrice', priceNum, initialData);
-        validateLoanField('loanAmount', defaultLoanAmount, initialData);
+        // Validate initial data after state update
+        setTimeout(() => {
+          validateLoanField('propertyPrice', priceNum, initialData);
+          validateLoanField('loanAmount', defaultLoanAmount, initialData);
+        }, 0);
       }
     } else {
       // Reset loan data if not a sell listing
@@ -140,7 +160,8 @@ const ListingDetail = () => {
         loanTerm: 30
       });
     }
-  }, [id, validateLoanField]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [id]);
   
   // Calculate loan payment
   const calculateLoan = () => {
@@ -352,10 +373,14 @@ const ListingDetail = () => {
       <div className="listing-detail-page">
         {/* Back Button */}
         <div className="listing-detail-header">
-          <Link to="/agent/listings" className="back-button">
+          <button 
+            onClick={() => navigate('/agent/listings')} 
+            className="back-button"
+            type="button"
+          >
             <ArrowLeft size={20} />
             กลับไปที่รายการประกาศ
-          </Link>
+          </button>
           <div className="listing-detail-actions">
             <Link 
               to={`/agent/create-listing?edit=${listing.id}`}
@@ -553,6 +578,89 @@ const ListingDetail = () => {
                 />
               )}
             </div>
+
+            {/* Contact Information */}
+            {(listing.contactLine || listing.contactPhone || listing.contactEmail) && (
+              <div className="listing-detail-section">
+                <h2 className="section-title">ช่องทางติดต่อ</h2>
+                <div className="contact-info">
+                  {listing.contactLine && (
+                    <a 
+                      href={`https://line.me/ti/p/${listing.contactLine.replace('@', '')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="contact-item"
+                    >
+                      <MessageCircle size={20} />
+                      <span>{listing.contactLine}</span>
+                    </a>
+                  )}
+                  {listing.contactPhone && (
+                    <a 
+                      href={`tel:${listing.contactPhone}`}
+                      className="contact-item"
+                    >
+                      <Phone size={20} />
+                      <span>{listing.contactPhone}</span>
+                    </a>
+                  )}
+                  {listing.contactEmail && (
+                    <a 
+                      href={`mailto:${listing.contactEmail}`}
+                      className="contact-item"
+                    >
+                      <Mail size={20} />
+                      <span>{listing.contactEmail}</span>
+                    </a>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Agent Profile */}
+            {agentProfile && (
+              <div className="listing-detail-section agent-profile-section">
+                <h2 className="section-title">นายหน้า</h2>
+                <div className="agent-profile-card">
+                  <div className="agent-profile-header">
+                    <div className="agent-avatar">
+                      {agentProfile.profileImage ? (
+                        <img src={agentProfile.profileImage} alt={agentProfile.name} />
+                      ) : (
+                        <User size={32} />
+                      )}
+                    </div>
+                    <div className="agent-info">
+                      <h3 className="agent-name">{agentProfile.name || 'นายหน้า'}</h3>
+                      {agentProfile.rating !== undefined && agentProfile.rating > 0 && (
+                        <div className="agent-rating">
+                          <Star size={16} fill="#fbbf24" color="#fbbf24" />
+                          <span>{agentProfile.rating.toFixed(1)}</span>
+                          {agentProfile.reviewCount > 0 && (
+                            <span className="review-count">({agentProfile.reviewCount} รีวิว)</span>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                  {agentProfile.bio && (
+                    <p className="agent-bio">{agentProfile.bio}</p>
+                  )}
+                  {agentProfile.phone && (
+                    <div className="agent-contact">
+                      <Phone size={16} />
+                      <span>{agentProfile.phone}</span>
+                    </div>
+                  )}
+                  {agentProfile.email && (
+                    <div className="agent-contact">
+                      <Mail size={16} />
+                      <span>{agentProfile.email}</span>
+                    </div>
+                  )}
+                </div>
+              </div>
+            )}
 
             {/* Status and Dates */}
             <div className="listing-detail-section">

@@ -1,5 +1,5 @@
-import Layout from '../components/Layout/Layout';
-import './Buy.css';
+import Layout from '../components/Layout/Layoutsell';
+import './Buysell.css';
 
 const Buy = () => {
   return (

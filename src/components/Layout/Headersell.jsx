@@ -14,7 +14,7 @@ import {
 import { useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { Link, useLocation } from 'react-router-dom';
-import './Header.css';
+import './Headersell.css';
 
 // Constants
 const LISTING_EXPIRY_DAYS = 90;
@@ -73,6 +73,7 @@ const Header = () => {
     { path: '/buy', label: 'ซื้อ', icon: ShoppingBag },
     { path: '/rent', label: 'เช่า', icon: ShoppingBag },
     { path: '/agent/dashboard', label: 'สถิติ', icon: Home },
+    { path: '/agent/listings', label: 'รายการประกาศ', icon: ShoppingBag },
   ];
 
   // Notifications data
@@ -212,7 +213,7 @@ const Header = () => {
     const menuItems = [
       { to: '/agent/profile', icon: User, label: 'โปรไฟล์', isLink: true },
       { icon: FileText, label: 'คลังเอกสาร', onClick: () => { setShowDocuments(true); setProfileOpen(false); } },
-      { icon: Book, label: 'คู่มือ', onClick: () => { setShowGuide(true); setProfileOpen(false); } },
+      { to: '/agent/guide', icon: Book, label: 'คู่มือ', isLink: true },
       { to: '/agent/settings', icon: Settings, label: 'ตั้งค่า', isLink: true },
     ];
 
@@ -289,13 +290,6 @@ const Header = () => {
               <span>{item.label}</span>
             </Link>
           ))}
-          <Link
-            to="/agent/listings"
-            className="list-home-button-mobile"
-            onClick={() => setMobileMenuOpen(false)}
-          >
-            รายการประกาศ
-          </Link>
         </nav>
 
         {/* Desktop Header Actions */}
@@ -304,8 +298,8 @@ const Header = () => {
             <MessageCircle size={18} />
             <span>Chat</span>
           </Link>
-          <Link to="/agent/listings" className="list-home-button list-home-button-desktop">
-            รายการประกาศ
+          <Link to="/agent/create-listing" className="list-home-button list-home-button-desktop">
+            เพิ่มประกาศใหม่
           </Link>
           <div className="notification-wrapper">
             <NotificationButton />

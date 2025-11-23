@@ -1,15 +1,15 @@
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Layout from './components/Layout/Layout';
-import Home from './pages/Home';
-import Buy from './pages/Buy';
-import Rent from './pages/Rent';
-import Dashboard from './pages/agent/Dashboard';
-import CreateListing from './pages/agent/CreateListing';
-import Listings from './pages/agent/Listings';
-import ListingDetail from './pages/agent/ListingDetail';
-import Chat from './pages/agent/Chat';
-import Contracts from './pages/agent/Contracts';
-import Profile from './pages/agent/Profile';
+import { Navigate, Route, BrowserRouter as Router, Routes } from 'react-router-dom';
+import Buy from './pages/Buysell';
+import Home from './pages/Homesell';
+import Rent from './pages/Rentsell';
+import Chat from './pages/agent/Chatsell';
+import Contracts from './pages/agent/Contractssell';
+import CreateListing from './pages/agent/CreateListingsell';
+import Dashboard from './pages/agent/Dashboardsell';
+import Guide from './pages/agent/Guidesell';
+import ListingDetail from './pages/agent/ListingDetailsell';
+import Listings from './pages/agent/Listingssell';
+import Profile from './pages/agent/Profilesell';
 
 function App() {
   return (
@@ -26,6 +26,7 @@ function App() {
         <Route path="/agent/chat" element={<Chat />} />
         <Route path="/agent/contracts" element={<Contracts />} />
         <Route path="/agent/profile" element={<Profile />} />
+        <Route path="/agent/guide" element={<Guide />} />
       </Routes>
     </Router>
   );

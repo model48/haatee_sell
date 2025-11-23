@@ -1,5 +1,5 @@
-import Layout from '../../components/Layout/Layout';
-import './Chat.css';
+import Layout from '../../components/Layout/Layoutsell';
+import './Chatsell.css';
 
 const Chat = () => {
   return (
